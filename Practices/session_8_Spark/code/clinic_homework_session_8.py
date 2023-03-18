@@ -28,7 +28,7 @@ for index, file in enumerate(csv_files):
 # Create DataFrames for each table with SparkSQL
 print("Initializing Dataframes with SparkSQL.")
 
-patient_df = spark.sql('select patient_name as name, patient_last_name as last_name, patient_address as address from clinic_2')
+patient_df = spark.sql('select patient_name as name, patient_last_name as last_name, patient_address as address from clinic_1')
 
 clinical_specialization_df = spark.sql('select doctor_clinical_specialization as name from clinic_1')
 
@@ -86,11 +86,11 @@ doctor_df.createOrReplaceTempView("doctor")
 appointment_df = spark.sql("""
     SELECT a.date, a.time, p.id AS patient_id, d.id AS doctor_id
     FROM appointment a
-    INNER JOIN patient p
+    JOIN patient p
     ON a.patient_name = p.name
     AND a.patient_last_name = p.last_name
     AND a.patient_address = p.address
-    INNER JOIN doctor d
+    JOIN doctor d
     ON a.doctor_name = d.name
     AND a.doctor_last_name = d.last_name
 """)
